@@ -3,7 +3,7 @@
     <head>
 
         <title>{{ $title ?? 'Master Genesis Prototype v1' }}</title>
-
+        @vite('resources/css/app.css')
     </head>
     <body>
 
