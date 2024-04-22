@@ -4,7 +4,21 @@
     <x-slot name="heading">branch.index</x-slot>
 
     <div>
-        My Page content is here 
+        <x-data-table 
+            :items="$branches" 
+            :columns="[
+                [
+                    'valueKey' => 'id', 
+                    'label' => 'ID' 
+                ],
+                [
+                    'valueKey' => 'name',
+                    'label' => 'Name'
+                ]
+            ]"
+        >
+            <x-slot name="heading">Branches</x-slot>
+        </x-data-table>
     </div>
 
     @section('scripts')

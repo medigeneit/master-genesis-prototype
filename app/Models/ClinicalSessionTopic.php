@@ -39,9 +39,10 @@ class ClinicalSessionTopic extends Model
         return $this->belongsTo(Topic::class);
     }
 
-    public function clinical(): BelongsTo
+
+    public function faculty_discipline(): BelongsTo
     {
-        return $this->belongsTo(FacultyDiscipline::class);
+        return $this->belongsTo( FacultyDiscipline::class, 'clinical_id', 'id' );
     }
 
     public function session(): BelongsTo
@@ -49,13 +50,8 @@ class ClinicalSessionTopic extends Model
         return $this->belongsTo(Session::class);
     }
 
-    public function facultyDisciplines(): HasMany
+    public function contents(): HasMany
     {
-        return $this->hasMany(FacultyDiscipline::class);
-    }
-
-    public function sessions(): HasMany
-    {
-        return $this->hasMany(Session::class);
+        return $this->hasMany( Content::class);
     }
 }
