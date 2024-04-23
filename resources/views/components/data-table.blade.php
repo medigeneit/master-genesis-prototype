@@ -1,9 +1,9 @@
 @props(['items','columns'])
 
  
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
+<div class="relative overflow-x-auto shadow-md sm:rounded border">
     @if(isset($heading))
-        <div class="py-2 px-2 bg-gray-200">
+        <div class="py-2 px-4 bg-gray-200 dark:text-white dark:bg-gray-800">
             <div class="text-lg font-semibold">{!! $heading !!}</div>
         </div>
     @endif

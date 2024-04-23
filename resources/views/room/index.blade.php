@@ -22,8 +22,8 @@
             ]
         ]"
     >
-    <x-slot name="heading">Rooms</x-slot>
-</x-data-table>
+        <x-slot name="heading">Rooms</x-slot>
+    </x-data-table>
 
     @section('scripts')
         <!-- Your script here -->
