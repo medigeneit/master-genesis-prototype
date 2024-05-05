@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class MentorBooking extends Model
+class MentorBooking extends Pivot
 {
+    protected $table = 'mentor_bookings';
     use HasFactory;
 
     /**

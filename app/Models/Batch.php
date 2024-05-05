@@ -34,12 +34,17 @@ class Batch extends Model
         'module_id' => 'integer',
     ];
 
+
+    public function bookings(){
+        return $this->morphMany(Booking::class,'bookable');
+    }
+
     public function doctorBatches(): HasMany
     {
         return $this->hasMany(DoctorBatch::class);
     }
 
-    public function bookings(): HasMany
+    public function batch_bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
