@@ -4,7 +4,38 @@
     <x-slot name="heading">content.index</x-slot>
 
     <div>
-        My Page content is here 
+        <x-data-table 
+            resource-base="contents"
+            show-create-button
+            :items="$contents" 
+            :columns="[
+                [
+                    'valueKey' => 'id', 
+                    'label' => 'ID' 
+                ],
+
+                [
+                    'valueKey' => function($content){
+                        return '..';
+                    },
+                    'label' => 'Material'
+                ],
+                [
+                    'valueKey' => function($content){
+                        return $content->session->name .' ('.$content->session->year.')';
+                    },
+                    'label' => 'Session'
+                ],
+                [
+                    'valueKey' => function($content){
+                        return $content->topic->name;
+                    },
+                    'label' => 'Topic'
+                ]
+            ]"
+        >
+            <x-slot name="heading">Session Topic Contents</x-slot>
+        </x-data-table>
     </div>
 
     @section('scripts')

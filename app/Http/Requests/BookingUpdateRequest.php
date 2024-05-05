@@ -19,14 +19,30 @@ class BookingUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        // return [
+        //     'starting_date' => ['required', BookingStoreRequest::not_in_blocked_dates( )],
+        //     'starting_time' => ['required'],
+        //     'duration_hour' => ['required'],
+        //     'duration_minute' => ['required'],
+
+        //     'topic_id' => ['nullable', 'integer'],
+        //     'department_id' => ['required', 'integer'],
+        //     'bookable_type' => ['nullable', 'string'],
+        //     'bookable_id' => ['nullable', 'integer'],
+        //     'batch_id' => ['required', 'integer'],
+        //     'mentor_id.*' => ['exists:mentors,id', 'integer', BookingStoreRequest::mentor_availablity_rule($this)],
+        //     'room_id.*' => ['exists:rooms,id', 'integer', BookingStoreRequest::room_availablity_rule($this)],
+        // ];
+
         return [
-            'started_at' => ['required'],
-            'ending_at' => ['nullable'],
-            'topic_id' => ['nullable', 'integer'],
+            'starting_date' => ['required', BookingStoreRequest::not_in_blocked_dates()],
+            'starting_time' => ['required'],
+            'duration_hour' => ['required'],
+            'duration_minute' => ['required'],
             'department_id' => ['required', 'integer'],
-            'bookable_type' => ['nullable', 'string'],
-            'bookable_id' => ['nullable', 'integer'],
-            'batch_id' => ['required', 'integer'],
-        ];
+            'mentor_id.*' => ['exists:mentors,id', 'integer', BookingStoreRequest::mentor_availablity_rule($this)],
+            'room_id.*' => ['exists:rooms,id', 'integer', BookingStoreRequest::room_availablity_rule($this)],
+        ] + BookingStoreRequest::booking_type_rules($this);
+
     }
 }

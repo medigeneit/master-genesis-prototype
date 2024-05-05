@@ -1,10 +1,24 @@
 <x-app-layout>
 
     <x-slot name="title">facultyDiscipline.index || Master Genesis Prototype v1</x-slot>
-    <x-slot name="heading">facultyDiscipline.index</x-slot>
+    <x-slot name="heading">Faculty/Disciplines</x-slot>
 
     <div>
-        My Page content is here 
+        <x-data-table 
+            :items="$facultyDisciplines" 
+            :columns="[
+                [
+                    'valueKey' => 'id', 
+                    'label' => 'ID' 
+                ],
+                [
+                    'valueKey' => 'name',
+                    'label' => 'Name'
+                ]
+            ]"
+        >
+            <x-slot name="heading">Faculty/Discipline</x-slot>
+        </x-data-table>
     </div>
 
     @section('scripts')
@@ -12,3 +26,4 @@
     @endsection
 
 </x-app-layout>
+ 
