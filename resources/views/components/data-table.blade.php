@@ -2,6 +2,7 @@
 
  
 <div class="relative overflow-x-auto shadow-md sm:rounded ">
+    
     @if(isset($heading))
         <div class="py-2 px-4 bg-gray-200 dark:text-white dark:bg-gray-700 flex gap-4 items-cebter">
             @if($showCreateButton ?? false)

@@ -92,7 +92,8 @@
             label="Room(s)"
             :items="$branches"
             name="room_id[]"
-            :selected-ids="$selected_room_ids"
+            multiple
+            :selected="$selected_room_ids"
         />
 
         <ul>
@@ -257,7 +258,8 @@
                 label="Mentor(s)"
                 :items="$mentors"
                 name="mentor_id[]"
-                :selected-ids="$selected_mentor_ids"
+                multiple
+                :selected="$selected_mentor_ids"
             />
         </div>
         <ul>

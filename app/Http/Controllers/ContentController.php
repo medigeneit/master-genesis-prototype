@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContentStoreRequest;
 use App\Http\Requests\ContentUpdateRequest;
 use App\Models\Content;
+use App\Models\ContentType;
+use App\Models\FacultyDiscipline;
+use App\Models\Session;
+use App\Models\Topic;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -18,9 +22,22 @@ class ContentController extends Controller
         return view('content.index', compact('contents'));
     }
 
+    function data(Content $content){
+
+        $sessions = Session::get( );
+        $topics = Topic::query( )->get( );
+        $content_types = ContentType::get();
+        $faculty_disciplines = FacultyDiscipline::get();
+
+        $content_type = old( 'content_type', $content->content_type ?? '' );
+
+        return compact( 'sessions', 'topics', 'content_type', 'content_types', 'faculty_disciplines' );
+    }
+
+
     public function create(Request $request)
     {
-        return view('content.create');
+        return view('content.create', $this->data(new Content()));
     }
 
     public function store(ContentStoreRequest $request)
@@ -39,7 +56,7 @@ class ContentController extends Controller
 
     public function edit(Request $request, Content $content)
     {
-        return view('content.edit', compact('content'));
+        return view('content.edit' , $this->data( $content ) + compact('content'));
     }
 
     public function update(ContentUpdateRequest $request, Content $content)
