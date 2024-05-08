@@ -7,6 +7,7 @@ use App\Http\Requests\ContentUpdateRequest;
 use App\Models\Content;
 use App\Models\ContentType;
 use App\Models\FacultyDiscipline;
+use App\Models\Material;
 use App\Models\Session;
 use App\Models\Topic;
 use Illuminate\Http\RedirectResponse;
@@ -27,11 +28,12 @@ class ContentController extends Controller
         $sessions = Session::get( );
         $topics = Topic::query( )->get( );
         $content_types = ContentType::get();
+        $materials = Material::get();
         $faculty_disciplines = FacultyDiscipline::get();
 
         $content_type = old( 'content_type', $content->content_type ?? '' );
 
-        return compact( 'sessions', 'topics', 'content_type', 'content_types', 'faculty_disciplines' );
+        return compact( 'sessions', 'topics', 'content_type', 'content_types', 'faculty_disciplines','materials' );
     }
 
 

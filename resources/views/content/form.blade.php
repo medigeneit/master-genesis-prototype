@@ -8,8 +8,7 @@
         <x-input-dropdown
             label="Session"
             :items="$sessions"
-            name="room_id[]"
-            :selected="[2]"
+            name="session_id"
             :selected="old( 'session_id', $content->session_id ?? '' )"
         />
 
