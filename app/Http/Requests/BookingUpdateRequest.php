@@ -42,7 +42,7 @@ class BookingUpdateRequest extends FormRequest
             'department_id' => ['required', 'integer'],
             'mentor_id.*' => ['exists:mentors,id', 'integer', BookingStoreRequest::mentor_availablity_rule($this)],
             'room_id.*' => ['exists:rooms,id', 'integer', BookingStoreRequest::room_availablity_rule($this)],
-        ] + BookingStoreRequest::booking_type_rules($this);
+        ] + (BookingStoreRequest::booking_type_rules($this) ?? []);
 
     }
 }

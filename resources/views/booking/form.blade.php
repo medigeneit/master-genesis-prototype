@@ -13,14 +13,17 @@
                             <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                         </svg>
                     </div>
+     
+                    
                     <input 
-                    datepicker 
-                    datepicker-format="yyyy-mm-dd"
-                    name="starting_date" 
-                    value="{{ old('starting_date', $booking->starting_date ?? ' ' ) }}"
-                    type="text"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-8 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                    placeholder="Select date start"
+                        datepicker
+                        datepicker-format="yyyy-mm-dd"
+                        name="starting_date" 
+                        value="{{ old('starting_date', $booking->starting_date ?? request()->selected_date ) }}"
+                        type="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-8 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        placeholder="Select date start"
+                        {{ request()->selected_date ? 'readonly':'datepicker' }}
                     >
                 </div>
                 
@@ -93,7 +96,7 @@
             :items="$branches"
             name="room_id[]"
             multiple
-            :selected="$selected_room_ids"
+            :selected="request()->selected_room_id ? [request()->selected_room_id]:old('room_id', $selected_room_ids)"
         />
 
         <ul>
@@ -140,6 +143,7 @@
                     {{ $booking_type === 'class' ? ' checked ':'' }} 
                     {{-- ($booking->id ?? '') ? ' disabled ':'' --}} 
                     name="booking_type" value="class"
+                    required
                 >
                 <span>Class</span>
             </label>
@@ -151,6 +155,7 @@
                     {{-- ($booking->id ?? '') ? ' disabled ':'' --}} 
                     name="booking_type" 
                     value="program"
+                    required
                 >
                 <span>Celebration Program/Orientation Class</span>
             </label>
@@ -259,7 +264,7 @@
                 :items="$mentors"
                 name="mentor_id[]"
                 multiple
-                :selected="$selected_mentor_ids"
+                :selected="old('mentor_id', $selected_mentor_ids)"
             />
         </div>
         <ul>

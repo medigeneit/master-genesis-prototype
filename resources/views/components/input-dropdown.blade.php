@@ -80,7 +80,7 @@
                 @if($multiple ?? false)
                     @foreach( $_selected as $item )
                         <div class="{{$preview_item_class}}" data-item-id="{{$item->id}}">
-                            <span>{{$item->name}}</span>
+                            <span> {{ isset($item->id) ? $item->id . " - ":'' }} {{$item->name}}</span>
                             <button class="border h-6 w-6 rounded-full ml-2">&times</button>
                         </div>
                     @endforeach
@@ -166,7 +166,8 @@
         const preview = inputDropdown.querySelector('.preview');
 
         inputDropdown.querySelectorAll(`[data-item-id]`).forEach(function(previewItem){
-            previewItem.querySelector('button').addEventListener('click', function(){
+            previewItem.querySelector('button').addEventListener('click', function(e){
+                e.stopPropagation();
                 const id = previewItem.dataset.itemId;
                 removeItem( previewItem, inputDropdown.querySelector(`[data-id="${id}"]`) )
             })
@@ -192,9 +193,17 @@
                 if( options.multiple ) {
                     
                     const item = document.createElement('div');
+                    const itemId = list_item.querySelector('input').dataset.id;
+
+                    const handleInputOnUncheck = function( item ){
+                        if( item ) {
+                            item.remove();
+                        }
+                    };
+
+                    
 
                     if( e.target.checked ) {
-                        const itemId = list_item.querySelector('input').dataset.id;
                        
                         //"px-2 py-1 dark:bg-white dark:text-gray-800 font-semibold border rounded-lg inline-block mb-2"
                         item.classList.add(...`px-2 py-1 dark:bg-white dark:text-gray-800 font-semibold border rounded-lg inline-block mb-2 item_id_${itemId}`.split(" "))
@@ -209,16 +218,18 @@
 
                         close.addEventListener('click', (e) => {
                             e.stopPropagation();
-                            item.remove();
                             removeItem(item,list_item.querySelector('input'));
-                            
                         });
 
                         preview.appendChild( item );
                          
-                        list_item.querySelector('input').addEventListener('change', function(){
-                            item.remove();
+                        list_item.querySelector('input').addEventListener('change', () => {
+                            handleInputOnUncheck( item );
                         });
+
+                    } else {
+                        console.log({item}, 'onUnCheck');
+                        handleInputOnUncheck( inputDropdown.querySelector(`[data-item-id="${itemId}"]`) );
                     }
 
 

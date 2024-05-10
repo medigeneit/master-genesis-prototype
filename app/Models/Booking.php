@@ -52,16 +52,24 @@ class Booking extends Model
         return self::bookable_types[$this->bookable_type] ?? '';
     }
 
+
+    
     //Starting Date
     public function getStartingDateAttribute(){
-        
-        return $this->started_at->format('Y-m-d');
+        return $this->started_at ? $this->started_at->format('Y-m-d'):null;
     }
-    
+
     //Starting Time
     public function getStartingTimeAttribute(){
-        return $this->started_at->format('H:i');
+        return $this->started_at ? $this->started_at->format('H:i'):null;
     }
+
+
+    //Ending At
+    public function getEndingAttribute(){
+        return $this->started_at->addMinute($this->duration);
+    }
+    
 
     protected $_started_at_time, $_started_at_date;
 

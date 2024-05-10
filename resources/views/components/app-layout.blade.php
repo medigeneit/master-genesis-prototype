@@ -10,11 +10,9 @@
 
         <div id="app">
 
-            <header class="top-header h-12 w-full shadow-lg dark:bg-gray-800 fixed z-50 shadow-[0_5px_10px_0px_rgba(220,220,220,0.5)] dark:shadow-[0_5px_10px_0px_rgba(220,220,220,0.2)]">
-                <h2 class="text-center leading-[45px]">{{$heading ?? ""}}</h2>
-            </header> 
 
-            <aside class="pt-16 w-64 dark:text-white dark:bg-gray-700 shadow-[5px_0_10px_0px_rgba(220,220,220,0.5)] dark:shadow-[5px_0_10px_0px_rgba(100,150,50,0.3)] fixed top-0 bottom-0 overflow-y-auto">
+
+            <aside class="z-50 pt-16 w-64 dark:text-white dark:bg-gray-700 shadow-[5px_0_10px_0px_rgba(220,220,220,0.5)] dark:shadow-[5px_0_10px_0px_rgba(100,150,50,0.3)] fixed top-0 bottom-0 overflow-y-auto">
                 <ul>
 
                     <li>
@@ -83,6 +81,10 @@
                 
                 </ul>
             </aside>
+
+            <header class="top-header h-12 w-full shadow-lg dark:bg-gray-800 fixed z-50 shadow-[0_5px_10px_0px_rgba(220,220,220,0.5)] dark:shadow-[0_5px_10px_0px_rgba(220,220,220,0.2)]">
+                <h2 class="text-center leading-[45px]">{{$heading ?? ""}}</h2>
+            </header> 
 
             <div class="ml-64 pt-12">
                 <main class="flex-grow p-4  dark:bg-gray-600 min-h-screen">

@@ -14,7 +14,7 @@
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
                             <div class="font-bold border-b border-dashed dark:border-gray-600 mb-2">Department</div>
                             <div>
-                                {{ $booking->department->name }}
+                                {{ $booking->department->name ?? ''}}
                             </div>
                         </th>
                         
@@ -23,7 +23,7 @@
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
                             <div class="font-bold border-b border-dashed dark:border-gray-600 mb-2">Topic</div>
                             <div>
-                                {{  $booking->topic->name }}
+                                {{  $booking->topic->name ?? '' }}
                             </div>
                         </th>
                         

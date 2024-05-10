@@ -47,7 +47,7 @@ class BookingStoreRequest extends FormRequest
             'department_id' => ['required', 'integer'],
             'mentor_id.*' => ['exists:mentors,id', 'integer', self::mentor_availablity_rule($this)],
             'room_id.*' => ['exists:rooms,id', 'integer', self::room_availablity_rule($this)],
-        ] + self::booking_type_rules($this);
+        ] +( self::booking_type_rules($this) ?? []);
     }
 
     public static function booking_type_rules( $request ){
@@ -67,8 +67,8 @@ class BookingStoreRequest extends FormRequest
 
     public static function not_in_blocked_dates(){
         return function($field, $date, $error){
-            if( BlockedDate::query()->where('date', $date)->exists()) {
-                $error("This date is blocked");
+            if($day = BlockedDate::query()->where('date', $date)->first()) {
+                $error( "'" . $day->title . "'. This date is blocked" );
             }
         };
     }

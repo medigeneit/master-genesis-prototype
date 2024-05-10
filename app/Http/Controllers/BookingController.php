@@ -6,15 +6,22 @@ use App\Http\Requests\BookingStoreRequest;
 use App\Http\Requests\BookingUpdateRequest;
 use App\Models\Batch;
 use App\Models\Booking;
+use App\Models\BookingDate;
 use App\Models\Branch;
 use App\Models\ContentType;
 use App\Models\Department;
 use App\Models\Mentor;
 use App\Models\Program;
 use App\Models\Room;
+use App\Models\Schedule;
 use App\Models\Topic;
+use DateInterval;
+use DatePeriod;
+use DateTime;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -23,11 +30,69 @@ class BookingController extends Controller
 {
     public function index(Request $request)
     {
+
+        $startDate = '2024-05-01';
+        $endDate = '2024-06-10';
+
         $bookings = Booking::all();
 
-        return view('booking.index', compact('bookings'));
+        BookingDate::resolveRelationUsing('schedules', function(Model $bookingDate){
+            return $bookingDate->hasMany(  Schedule::class, 'date', 'date' );
+        });
+
+
+        $booking_dates = BookingDate::with(['schedules' => function($schedule){
+
+            $schedule->with('batch','topic','mentors','rooms','department');
+
+        }])->get();
+
+
+        $booking_dates->each(function( &$booking_date ){
+            $booking_date->schedules->each(function($schedule){
+
+
+            });
+        });
+
+
+
+        $rooms = Room::with(['bookings' => function($booking){
+            $booking->select([
+                DB::raw("DATE_FORMAT(`bookings`.`started_at`,'%Y-%m-%d') AS `date`"),
+                "bookings.*"
+            ])->orderBy('started_at');
+            //$startDate->whereBetween( ); // Todo:: date between
+        }])->get();
+        
+        $rooms->each(function(Room &$room){
+            $room->slot_bookings = $room->bookings->groupBy( 'date' );
+        });
+        
+        
+        //return $rooms;
+
+         
+        $dates = $this->createDateRangeArray( $startDate, $endDate );
+
+
+        return view('booking.index', compact('bookings','dates','rooms' ));
     }
 
+    protected function createDateRangeArray($startDate, $endDate) {
+        $start = new DateTime($startDate);
+        $end = new DateTime($endDate);
+    
+        $interval = new DateInterval('P1D'); // 1 Day interval
+        $dateRange = new DatePeriod($start, $interval, $end);
+    
+        $dates = [];
+        foreach ($dateRange as $date) {
+            $dates[] = Carbon::make($date->format('Y-m-d'));
+        }
+    
+        return $dates;
+    }
 
     function data(Booking $booking){
         $departments = Department::get();
@@ -73,12 +138,13 @@ class BookingController extends Controller
 
     public function create(Request $request)
     {
-
         return view('booking.create', $this->data(new Booking()));
     }
 
     public function store(BookingStoreRequest $request)
     {
+
+        // return $request;
 
         // return $request->bookable()->bookings;
         // return $request;
