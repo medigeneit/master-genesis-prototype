@@ -29,11 +29,15 @@ Route::resource('courses', App\Http\Controllers\CourseController::class);
 
 Route::resource('modules', App\Http\Controllers\ModuleController::class);
 
+Route::resource('modules.topics', App\Http\Controllers\ModuleTopicsController::class);
+
 Route::resource('batches', App\Http\Controllers\BatchController::class);
 
 Route::resource('bookings', App\Http\Controllers\BookingController::class);
 
 Route::resource('contents', App\Http\Controllers\ContentController::class);
+
+Route::get('contents/materials/{type}/show/{id}', [App\Http\Controllers\ContentController::class, 'show_material']);
 
 Route::resource('topics', App\Http\Controllers\TopicController::class);
 

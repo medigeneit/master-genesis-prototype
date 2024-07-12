@@ -4,7 +4,7 @@
     <x-slot name="heading">content.edit</x-slot>
 
     <form class="w-full mx-auto max-w-4xl p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 space-y-6" action="{{route('contents.update', [$content->id])}}" method="POST">
-        <h5 class="text-xl font-medium text-gray-900 dark:text-white text-center">Master Schedule Booking</h5>
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white text-center">Lecture Video/Exam assign on Session</h5>
         @csrf
         @method('PUT')
 

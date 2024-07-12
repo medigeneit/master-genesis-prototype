@@ -17,7 +17,7 @@
             <tr>
 
                 @foreach ($columns as $col)
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 {{ $col['th_class'] ?? '' }}">
                         {{ $col['label']  }}
                     </th>                    
                 @endforeach
@@ -28,7 +28,7 @@
             @forelse ($items as $item)
                 <tr class="bg-white dark:text-gray-300 border-b dark:bg-gray-600 dark:border-gray-700">
                     @foreach ($columns as $col)
-                        <td scope="col" class="px-6 py-3">
+                        <td scope="col" class="px-6 py-3 {{ $col['td_class'] ?? '' }}">
                             @if (is_callable($col['valueKey']))
                                 {!! $col['valueKey']($item) !!}
                             @else

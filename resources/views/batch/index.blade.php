@@ -5,7 +5,9 @@
 
     <div>
         <x-data-table 
-            :items="$batches" 
+            :items="$batches"
+            show-create-button
+            resource-base="batches"
             :columns="[
                 [
                     'valueKey' => 'id', 
@@ -27,10 +29,20 @@
                     },
                     'label' => 'Session'
                 ],
+                [
+                    'valueKey' => function($batch){
+                        return view('batch.list-item-action', compact('batch'));
+                    },
+                    'label' => 'Action',
+                    'th_class' => 'text-center',
+                    'td_class' => 'text-center bg-green-100 dark:bg-green-600/20'
+                ],
                 
             ]"
         >
-            <x-slot name="heading">Faculty/Discipline</x-slot>
+            <x-slot name="heading">
+                Batches 
+            </x-slot>
         </x-data-table>
     </div>
 

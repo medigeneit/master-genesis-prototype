@@ -52,7 +52,20 @@ class Booking extends Model
         return self::bookable_types[$this->bookable_type] ?? '';
     }
 
-
+    public static function getPredefinedTimeRanges(){
+        return [
+            ['8:00AM','10:00AM'],
+            ['10:00AM','12:30PM'],
+            ['01:00PM','02:30PM'],
+            ['4:00PM','06:00PM'],
+            
+            ['4:00PM','06:10PM'],
+            ['6:00PM','08:30PM'],
+            ['6:00PM','08:00PM'],
+            ['08:00PM','10:00PM'],
+        ];
+    }
+    
     
     //Starting Date
     public function getStartingDateAttribute(){

@@ -3,6 +3,10 @@
     <head>
 
         <title>{{ $title ?? 'Master Genesis Prototype v1' }}</title>
+        <script>
+            let all_dropdown_list = {};
+        </script>
+
         @vite(['resources/css/app.css','resources/js/app.js'])
 
     </head>
@@ -96,6 +100,16 @@
         </div>
 
         <script>
+            
+
+            function renderAllDropdownList() {
+                Object.entries(all_dropdown_list).forEach( render => {
+                    if( render[1] && typeof render[1] =='function' ) {
+                        render[1]();
+                    }
+                })
+            };
+
             const theme = localStorage.getItem('document-theme');
             if( theme === 'dark' ) {
                 document.querySelector('body').classList.add('dark');

@@ -25,17 +25,36 @@ class ContentController extends Controller
 
     function data(Content $content){
 
+
+        $material_type = old('type', $content->type) == 2 ? 2:1;
+        $material_id = old('material_id', $content->material_id);
+
         $sessions = Session::get( );
         $topics = Topic::query( )->get( );
+        
         $content_types = ContentType::get();
-        $materials = Material::get();
+ 
+        
+        $material = Material::query()->where('type', $material_type)->find($material_id);
+
+
         $faculty_disciplines = FacultyDiscipline::get();
 
         $content_type = old( 'content_type', $content->content_type ?? '' );
 
-        return compact( 'sessions', 'topics', 'content_type', 'content_types', 'faculty_disciplines','materials' );
+        return compact( 'sessions', 'topics', 'content_type', 'content_types', 'faculty_disciplines','material'  );
     }
 
+
+    public function show_material( $material_type, $material_id ){
+        $material = Material::query()->where('type', $material_type)->find($material_id);
+
+        if( !$material ) {
+            return 'Not Found!';
+        }
+
+        return view('content.materials', compact( 'material' ) );
+    }
 
     public function create(Request $request)
     {

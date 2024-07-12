@@ -8,7 +8,7 @@
         action="{{ route('contents.store')}}" 
         method="POST"
     >
-        <h5 class="text-xl font-medium text-gray-900 dark:text-white text-center">Content Create</h5>
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white text-center">Lecture Video/Exam assign on Session</h5>
         @method('POST')
         @csrf
         

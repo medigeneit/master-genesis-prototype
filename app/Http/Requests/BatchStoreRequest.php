@@ -21,8 +21,8 @@ class BatchStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'session_id' => ['required', 'integer'],
-            'module_id' => ['required', 'integer'],
+            'session_id' => ['required', 'integer', 'exists:sessions,id'],
+            'module_id' => ['required', 'integer', 'exists:modules,id'],
         ];
     }
 }

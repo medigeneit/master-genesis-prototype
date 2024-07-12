@@ -38,7 +38,15 @@
                         return $module->has_feedback ? '&check;':'';
                     },
                     'label' => 'Feedback Class'
-                ]
+                ],
+                [
+                    'valueKey' => function($module){
+                        return view('module.module-list-action', compact('module'));
+                    },
+                    'label' => 'Action',
+                    'th_class' => 'text-center',
+                    'td_class' => 'text-center bg-green-100 dark:bg-green-600/20'
+                ],
 
 
 

@@ -20,11 +20,11 @@ class ContentStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'session_id' => ['required', 'integer'],
             'topic_id' => ['required', 'integer'],
             'type' => ['required', 'integer'],
             'material_id' => ['required', 'integer'],
             'batch_id' => ['nullable', 'integer'],
-            'session_id' => ['required', 'integer'],
             'clinical_id' => ['nullable', 'integer'],
         ];
     }

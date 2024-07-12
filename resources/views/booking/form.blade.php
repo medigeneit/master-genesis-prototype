@@ -3,72 +3,109 @@
     <div class="w-full mt-6 border pb-4 rounded-md">
         <div class="text-center border-dashed border-b py-1 bg-sky-50 dark:bg-gray-700 rounded-t-md">Starting and Ending</div>
         
-        <div  class="max-w-2xl mx-auto flex items-center mt-1 gap-4">
-
-            <div class="flex-grow">
-                <label for="start-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                        </svg>
+        @if($selected_date)
+            <div class="text-center text-xl border-b mb-4 py-2">{{ $selected_date }}</div>
+            <input type="hidden" name="starting_date" value="{{ request()->selected_date }}" >
+        @endif
+        
+        <div  class="max-w-2xl mx-auto flex items-start justify-center mt-1 gap-4">
+            
+            @if(!$selected_date)
+                <div class="flex-grow">
+                    <label for="start-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                            </svg>
+                        </div>
+                        <input 
+                            datepicker
+                            datepicker-format="yyyy-mm-dd"
+                            name="starting_date" 
+                            value="{{ old('starting_date', $booking->starting_date ?? request()->selected_date ) }}"
+                            type="text"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-8 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="Select date start"
+                            {{ request()->selected_date ? 'readonly':'datepicker' }}
+                        >
                     </div>
-     
+                </div>
+            @endif
+                
+            <div class="ml-8 flex flex-col">
+
+                <div>Select Time Range</div>
+                <div class="w-full flex flex-col gap-2 time-ranges">
+                    @foreach ($predefined_time_ranges as $time )
+                        <label class="flex gap-4 justify-center items-center px-4 border py-1 rounded bg-gray-50 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-200 hover:text-green-800 cursor-pointer">
+                            <input 
+                                type="radio" 
+                                class="rounded-full text-red-500 time-range" 
+                                name="time-range"
+                                data-start-time="{{ $time[0] }}"
+                                data-end-time="{{ $time[1] }}"
+                            >
+                            <div class="w-4/12 text-center">{{ $time[0] }}</div>
+                            <div>-</div>
+                            <div class="w-4/12 text-center">{{ $time[1] }}</div>
+                        </label>
+                    @endforeach
                     
-                    <input 
-                        datepicker
-                        datepicker-format="yyyy-mm-dd"
-                        name="starting_date" 
-                        value="{{ old('starting_date', $booking->starting_date ?? request()->selected_date ) }}"
-                        type="text"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-8 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                        placeholder="Select date start"
-                        {{ request()->selected_date ? 'readonly':'datepicker' }}
-                    >
                 </div>
                 
-            </div>
-            <div class="ml-8">
-                <label for="start-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start time:</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <input 
-                        type="time" 
-                        value="{{ old('starting_time', $booking->starting_time ?? ' ' ) }}"
-                        id="start-time" 
-                        name="starting_time" 
-                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  
-                    />
-                </div>
-            </div>
-            <div>
-                <label for="end-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration:</label>
-                <div class="relative flex gap-4">
-                    
-                <input 
-                        type="number"
-                        id="duration_hour" 
-                        placeholder="Hour" 
-                        name="duration_hour" 
-                        value="{{ old('duration_hour', $booking->duration_hour ?? '' ) }}"
-                        class="w-20 bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   
-                    />
-                    
-                    <input 
-                        type="number" 
-                        id="duration_minute" 
-                        placeholder="Minute" 
-                        name="duration_minute" 
-                        value="{{ old('duration_minute', $booking->duration_minute ?? '' ) }}"
-                        class="w-20 bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   
-                    />
 
+
+                <label class="text-center mt-6 italic flex items-center gap-4 justify-center">
+                    <input type="radio" class="rounded" name="time-range" id="custom-time-range-selector">
+                    <span>Or Set Time and Duration</span>
+                </label>
+                <div class="flex gap-4 mt-3">
+                    <div>
+                        <label for="start-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start time:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <input 
+                                type="time" 
+                                value="{{ old('starting_time', $booking->starting_time ?? ' ' ) }}"
+                                id="start-time" 
+                                name="starting_time" 
+                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <label for="end-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration:</label>
+                        <div class="relative flex gap-4">
+                            
+                        <input 
+                            type="number"
+                            id="duration_hour" 
+                            placeholder="Hour" 
+                            name="duration_hour" 
+                            value="{{ old('duration_hour', $booking->duration_hour ?? '' ) }}"
+                            class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   
+                        />
+                            
+                        <input 
+                            type="number" 
+                            id="duration_minute" 
+                            placeholder="Minute" 
+                            name="duration_minute" 
+                            value="{{ old('duration_minute', $booking->duration_minute ?? '' ) }}"
+                            class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   
+                        />
+
+                        </div>
+                    </div>
                 </div>
+            
             </div>
+
         </div>
 
         <div class="max-w-2xl mx-auto">
@@ -96,7 +133,10 @@
             :items="$branches"
             name="room_id[]"
             multiple
-            :selected="request()->selected_room_id ? [request()->selected_room_id]:old('room_id', $selected_room_ids)"
+            :selected="request()->selected_room_id 
+                ? [request()->selected_room_id]
+                : old('room_id', $selected_room_ids)
+            "
         />
 
         <ul>
@@ -133,7 +173,7 @@
         <div>Booking Type</div>
         
         <div class="w-full flex gap-6 justify-center">
-            @if($booking->id ?? '')
+            @if( $booking->id ?? '' )
                 <input type="hidden" name="booking_type" value="{{$booking->booking_type}}" >
             @endif
 
@@ -225,7 +265,7 @@
                     @foreach ($batches as $batch )
                         <option 
                             value="{{ $batch->id }}" 
-                            {{ old('batch_id', $booking->bookable_id ?? '') == $batch->id  ? 'selected':'' }}
+                            {{ old( 'batch_id', $booking->bookable_id ?? '') == $batch->id  ? 'selected':'' }}
                         >{{ $batch->name }}</option>
                     @endforeach
                 </select>
@@ -347,5 +387,82 @@
         });
     });
 
+
+ 
+
+    const inputRanges = document.querySelectorAll('.time-ranges .time-range');
+    const customTimeRangeSelector = document.getElementById('custom-time-range-selector');
+
+    const start_time_input = document.getElementById('start-time');
+    const duration_hour = document.getElementById('duration_hour');
+    const duration_minute = document.getElementById('duration_minute');
+
+    customTimeRangeSelector.addEventListener('change', function(e){
+        console.log(e.target.checked);
+        if( e.target.checked ) {
+            start_time_input.removeAttribute('readonly');
+            duration_hour.removeAttribute('readonly');
+            duration_minute.removeAttribute('readonly');
+        }
+    });
+
+    
+    inputRanges.forEach(function( range ){
+        range.addEventListener('change', function(e){
+            if( e.target.checked ) {
+                start_time_input.setAttribute('readonly', true);
+                duration_hour.setAttribute('readonly', true);
+                duration_minute.setAttribute('readonly', true);
+
+                const {hours, minutes} = calculateDuration(range.dataset.startTime, range.dataset.endTime)
+
+                duration_hour.value = hours;
+                duration_minute.value = minutes;
+                start_time_input.value = timeTo24HourFormat(range.dataset.startTime);
+
+            }
+        })
+    });
+
+
+    const timeTo24HourFormat = timeString => {
+        let { hours, minutes, modifier } = parseTimeString(timeString);
+        if (modifier.toUpperCase() === 'PM' && hours < 12) hours += 12;
+        if (modifier.toUpperCase() === 'AM' && hours === 12) hours = 0;
+
+        return `${hours < 10 ?'0'+hours:hours }:${minutes < 10 ?'0'+minutes:minutes }`;
+    };
+
+    const parseTimeString = timeString => {
+        const [time, modifier] = timeString.split(/(AM|PM)/i);
+        let [hours, minutes] = time.split(':').map(Number);
+
+        return {
+            hours, minutes, modifier
+        };
+    }
+
+    const parseTime = timeString => {
+        let { hours, minutes, modifier } = parseTimeString(timeString);
+        
+        if (modifier.toUpperCase() === 'PM' && hours < 12) hours += 12;
+        if (modifier.toUpperCase() === 'AM' && hours === 12) hours = 0;
+
+        return hours * 60 + minutes;
+    };
+
+    function calculateDuration(start, end) {
+
+        const startMinutes = parseTime(start);
+        const endMinutes = parseTime(end);
+
+        const duration =  endMinutes - startMinutes;
+
+        const minutes = duration % 60;
+        const hours = Math.floor(duration / 60);
+
+        return {hours, minutes};
+    }
+                
 
 </script>

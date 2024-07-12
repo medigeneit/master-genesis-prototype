@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BatchStoreRequest;
 use App\Http\Requests\BatchUpdateRequest;
 use App\Models\Batch;
+use App\Models\FacultyDiscipline;
+use App\Models\Module;
+use App\Models\Session;
+use App\Models\Topic;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -18,9 +22,19 @@ class BatchController extends Controller
         return view('batch.index', compact('batches'));
     }
 
+    function data(Batch $batch){
+
+        $sessions = Session::get( );
+        $modules = Module::get( );
+        $topics = Topic::query( )->get( );
+        $faculty_disciplines = FacultyDiscipline::get();
+
+        return compact( 'sessions', 'topics', 'faculty_disciplines','batch','modules' );
+    }
+
     public function create(Request $request)
     {
-        return view('batch.create');
+        return view('batch.create', $this->data(new Batch()));
     }
 
     public function store(BatchStoreRequest $request)
@@ -39,7 +53,7 @@ class BatchController extends Controller
 
     public function edit(Request $request, Batch $batch)
     {
-        return view('batch.edit', compact('batch'));
+        return view('batch.edit', $this->data($batch));
     }
 
     public function update(BatchUpdateRequest $request, Batch $batch)

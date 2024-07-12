@@ -25,6 +25,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
@@ -51,12 +52,10 @@ class BookingController extends Controller
         $booking_dates->each(function( &$booking_date ){
             $booking_date->schedules->each(function($schedule){
 
-
+ 
             });
         });
-
-
-
+ 
         $rooms = Room::with(['bookings' => function($booking){
             $booking->select([
                 DB::raw("DATE_FORMAT(`bookings`.`started_at`,'%Y-%m-%d') AS `date`"),
@@ -68,18 +67,13 @@ class BookingController extends Controller
         $rooms->each(function(Room &$room){
             $room->slot_bookings = $room->bookings->groupBy( 'date' );
         });
-        
-        
-        //return $rooms;
-
-         
+          
         $dates = $this->createDateRangeArray( $startDate, $endDate );
 
-
-        return view('booking.index', compact('bookings','dates','rooms' ));
+        return view( 'booking.index', compact( 'bookings', 'dates', 'rooms' ));
     }
 
-    protected function createDateRangeArray($startDate, $endDate) {
+    protected function createDateRangeArray( $startDate, $endDate ) {
         $start = new DateTime($startDate);
         $end = new DateTime($endDate);
     
@@ -94,7 +88,7 @@ class BookingController extends Controller
         return $dates;
     }
 
-    function data(Booking $booking){
+    function data(Request $request, Booking $booking){
         $departments = Department::get();
         $batches = Batch::get();
 
@@ -130,15 +124,30 @@ class BookingController extends Controller
             $selected_room_ids = $booking->rooms()->pluck('id')->toArray();
 
             $selected_mentor_ids = $booking->mentors()->pluck('id')->toArray();
-                
         }
 
-        return compact( 'departments','batches','rooms','topics','mentors', 'selected_room_ids', 'selected_mentor_ids','branches','programs', 'booking_type','content_types' );
+        $predefined_time_ranges = Booking::getPredefinedTimeRanges();
+
+
+        return compact(
+            'departments','batches','rooms','topics','mentors', 'predefined_time_ranges', 
+            'selected_room_ids', 'selected_mentor_ids','branches','programs', 
+            'booking_type','content_types' 
+        );
     }
 
     public function create(Request $request)
     {
-        return view('booking.create', $this->data(new Booking()));
+
+        $selected_date =  null;
+
+        try {
+            if($request->selected_date) {
+                $selected_date =  \Illuminate\Support\Carbon::make(  $request->selected_date )->format("d M y");
+            }
+        } catch(\Carbon\Exceptions\InvalidFormatException $e ) {}
+
+        return view('booking.create', $this->data($request, new Booking()) + compact('selected_date')) ;
     }
 
     public function store(BookingStoreRequest $request)
@@ -174,7 +183,7 @@ class BookingController extends Controller
     public function edit(Request $request, Booking $booking)
     {
 
-        return view('booking.edit' , $this->data( $booking ) + compact('booking'));
+        return view('booking.edit' , $this->data($request, $booking ) + compact('booking'));
     }
 
     protected function booking_starting( $date, $time, Booking $booking ){

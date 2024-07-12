@@ -34,7 +34,10 @@ class ModuleController extends Controller
 
     public function show(Request $request, Module $module)
     {
-        return view('module.show', compact('module'));
+
+        $module_topics = $module->topics()->get();
+
+        return view('module.show', compact('module', 'module_topics'));
     }
 
     public function edit(Request $request, Module $module)
