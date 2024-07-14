@@ -1,7 +1,7 @@
-@props(['items','columns', 'resourceBase','showCreateButton'])
+@props(['items','columns', 'resourceBase','showCreateButton','class'])
 
  
-<div class="relative overflow-x-auto shadow-md sm:rounded ">
+<div class="{{ 'relative overflow-x-auto shadow-md sm:rounded ' . ($class ?? '') }}">
     
     @if(isset($heading))
         <div class="py-2 px-4 bg-gray-200 dark:text-white dark:bg-gray-700 flex gap-4 items-cebter">

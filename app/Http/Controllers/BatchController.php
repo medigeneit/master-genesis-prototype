@@ -48,7 +48,11 @@ class BatchController extends Controller
 
     public function show(Request $request, Batch $batch)
     {
-        return view('batch.show', compact('batch'));
+
+        $contents = $batch->obtainableContentsQuery([131])
+            ->with('material')->get();
+
+        return view('batch.show', compact('batch', 'contents'));
     }
 
     public function edit(Request $request, Batch $batch)

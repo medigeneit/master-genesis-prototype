@@ -61,9 +61,9 @@ class ContentController extends Controller
         return view('content.create', $this->data(new Content()));
     }
 
-    public function store(ContentStoreRequest $request)
+    public function store( ContentStoreRequest $request )
     {
-        $content = Content::create($request->validated());
+        $content = Content::create( $request->validated( ) );
 
         $request->session()->flash('content.id', $content->id);
 

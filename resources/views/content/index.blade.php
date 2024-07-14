@@ -15,8 +15,8 @@
                 ],
 
                 [
-                    'valueKey' => function($content){
-                        return '..';
+                    'valueKey' => function(\App\Models\Content $content){
+                        return $content->material->name ?? '';
                     },
                     'label' => 'Material'
                 ],

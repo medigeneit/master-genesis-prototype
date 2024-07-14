@@ -48,4 +48,24 @@ class Content extends Model
     {
         return $this->belongsTo(Topic::class);
     }
+
+    public function material(): BelongsTo
+    {
+        return $this->belongsTo(Material::class);
+    }
+
+    /**
+     * Begin querying the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function tableAs($alias)
+    {
+        $query = (new static);
+        if( $alias ) {
+            $query->table = $query->getTable(). ' as '.$alias;
+        }
+        return $query->newQuery();
+    }
+    
 }

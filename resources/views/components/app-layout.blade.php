@@ -16,8 +16,9 @@
 
 
 
-            <aside class="z-50 pt-16 w-64 dark:text-white dark:bg-gray-700 shadow-[5px_0_10px_0px_rgba(220,220,220,0.5)] dark:shadow-[5px_0_10px_0px_rgba(100,150,50,0.3)] fixed top-0 bottom-0 overflow-y-auto">
-                <ul>
+            <aside class="z-50 pt-12 w-64 dark:text-white dark:bg-gray-700 shadow-[5px_0_10px_0px_rgba(220,220,220,0.5)] dark:shadow-[5px_0_10px_0px_rgba(100,150,50,0.3)] fixed top-0 bottom-0 overflow-y-auto">
+                {{-- <div class="border py-4 mt-2"></div> --}}
+                <ul class="mt-4">
 
                     <li>
                         <a href="/institutes" class="px-4 py-2 bg-blue-50 dark:bg-gray-800 hover:bg-gray-200 hover:dark:bg-gray-900 inline-block w-full border-b border-gray-300 dark:border-gray-800" >Institute & Courses</a>
@@ -86,7 +87,7 @@
                 </ul>
             </aside>
 
-            <header class="top-header h-12 w-full shadow-lg dark:bg-gray-800 fixed z-50 shadow-[0_5px_10px_0px_rgba(220,220,220,0.5)] dark:shadow-[0_5px_10px_0px_rgba(220,220,220,0.2)]">
+            <header class="top-header h-12 w-full shadow-lg bg-white dark:bg-gray-800 fixed z-50 shadow-[0_5px_10px_0px_rgba(220,220,220,0.5)] dark:shadow-[0_5px_10px_0px_rgba(220,220,220,0.2)]">
                 <h2 class="text-center leading-[45px]">{{$heading ?? ""}}</h2>
             </header> 
 
