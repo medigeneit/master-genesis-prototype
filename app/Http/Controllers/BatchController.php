@@ -11,6 +11,7 @@ use App\Models\Session;
 use App\Models\Topic;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class BatchController extends Controller
@@ -49,8 +50,15 @@ class BatchController extends Controller
     public function show(Request $request, Batch $batch)
     {
 
+        // DB::enableQueryLog();
+
+        // return 
         $contents = $batch->obtainableContentsQuery([131])
             ->with('material')->get();
+
+        
+        // return DB::getQueryLog();
+        
 
         return view('batch.show', compact('batch', 'contents'));
     }

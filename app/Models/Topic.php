@@ -41,6 +41,19 @@ class Topic extends Model
         return $this->hasMany(Content::class);
     }
 
+    public function exams(){
+        return $this->contents()->where( 'type', 2);
+    }
+    public function solve_classes(){
+        return $this->contents()->where( 'type', 3);
+    }
+    public function lectures(){
+        return $this->contents()->where( 'type', 1);
+    }
+    public function feedback_classes(){
+        return $this->contents()->where( 'type', 4);
+    }
+
     public function modules(): BelongsToMany
     {
         return $this->belongsToMany(Module::class, 'module_topic');

@@ -50,6 +50,15 @@
 
 
         <x-data-table 
+            :items="$module_contents" 
+            :columns="$module_content_columns"
+        >
+            <x-slot name="heading">
+                Module Cotents
+            </x-slot>
+        </x-data-table>
+
+        {{-- <x-data-table 
             :items="$module_topics" 
             :columns="[
                 [
@@ -78,7 +87,7 @@
                 <a href="{{ route('modules.topics.create', [$module->id]) }}">Create Module Topics</a>
             </x-slot>
             
-        </x-data-table>
+        </x-data-table> --}}
     </div>
     
 

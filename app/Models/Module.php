@@ -46,4 +46,12 @@ class Module extends Model
     {
         return $this->hasMany(Batch::class);
     }
+    
+    public function contents(){
+        return $this->hasMany(Content::class);
+    }
+
+    public function topics_by_contents(){
+        return $this->belongsToMany(Topic::class, 'contents');
+    }
 }

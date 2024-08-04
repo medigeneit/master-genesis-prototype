@@ -40,14 +40,14 @@
 
                 [
                     'valueKey' => function($content){
-                        return $content->material->name;
+                        return $content->material->name ?? '';
                     },
                     'label' => 'Name',
                     'td_class' => 'bg-green-100/40 dark:bg-gray-700/50',
                 ],
                 [
                     'valueKey' => function($content){
-                        return $content->material->type == '2' ? 'Exam':'Lecture Video';
+                        return ($content->material->type ?? '') == '2' ? 'Exam':'Lecture Video';
                     },
                     'label' => 'Type',
                     'td_class' => 'bg-green-100/40 dark:bg-gray-700/50',

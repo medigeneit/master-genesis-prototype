@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\TableAlias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class Batch extends Model
 {
-    use HasFactory;
+    use HasFactory, TableAlias;
 
     /**
      * The attributes that are mass assignable.
@@ -72,7 +73,7 @@ class Batch extends Model
     public function obtainableContentsQuery( $clinical_id = null ){
 
 
-        $contents = Content::tableAs('c');
+        $contents = Content::queryTableAs('c');
 
         $contents->join( 'batches as b', 'c.session_id', 'b.session_id' );
         $contents->leftJoin( 'module_topic as mt', 'c.topic_id', 'mt.topic_id' );
@@ -100,6 +101,7 @@ class Batch extends Model
             'c.topic_id', 
             'c.type',
             'c.material_id', 
+            'c.material_type', 
             'c.session_id', 
             'b.id AS batch_id', 
             'c.clinical_id', 

@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\TableAlias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Content extends Model
 {
-    use HasFactory;
+    use HasFactory,TableAlias;
 
     /**
      * The attributes that are mass assignable.
@@ -49,23 +50,12 @@ class Content extends Model
         return $this->belongsTo(Topic::class);
     }
 
-    public function material(): BelongsTo
-    {
-        return $this->belongsTo(Material::class);
+    public function material(){
+        return $this->morphTo();
     }
 
-    /**
-     * Begin querying the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public static function tableAs($alias)
-    {
-        $query = (new static);
-        if( $alias ) {
-            $query->table = $query->getTable(). ' as '.$alias;
-        }
-        return $query->newQuery();
-    }
+    
+
+
     
 }
